@@ -1,11 +1,12 @@
 import LightningElementWithBootstrap from "../../lib/lightningElementWithBootstrap";
 const BASE_URL = 'https://remotive.io/api/remote-jobs'
-const i = '&description=${this.description}&location=${this.location}&full_time=${this.full_time}'
+const i = ''
 
 export default class App extends LightningElementWithBootstrap {
-    title='';
-    candidate_required_location='';
+    description='';
+    category='';
     job_type='';
+    selectedJob = null;
     jobs=[
         {"id":1111881,"url":"https://remotive.io/remote-jobs/customer-support/new-community-manager-1111881","title":"NEW Community Manager","company_name":"CloserIQ","company_logo":"https://remotive.io/job/1111881/logo","category":"Customer Service","tags":["marketing","sales","growth","management","operations","networking","email","programming","project management","content","B2B","customer success","community management","community","business development","creative","business","zendesk","account management","people","partnerships","events","development","reporting","engagement","hubspot","learning","law","event planning","organization","problem-solving","public speaking","branding","time management","revenue","sales operations","support","software"],"job_type":"full_time","publication_date":"2022-02-22T15:39:31","candidate_required_location":"USA Only","salary":"","description":"Community Manager description"},
         {"id":1103845,"url":"https://remotive.io/remote-jobs/software-dev/mobile-app-developer-ios-swift-1103845","title":"Mobile App Developer (iOS/Swift)","company_name":"SovTech","company_logo":"https://remotive.io/job/1103845/logo","category":"Software Development","tags":["developer","git","ios","mobile","swift","design","programming","agile","Engineering","product","CI/CD","knowledge","RESTful","RxSwift","people","culture","SOLID","development","APIs","IT","writing","RESTful APIs","UIKit","learning","fintech","networks","testing","github","support","MVVM","software"],"job_type":"full_time","publication_date":"2022-02-22T15:39:23","candidate_required_location":"Worldwide","salary":"","description":"Great job as a software developer"},
@@ -21,15 +22,35 @@ export default class App extends LightningElementWithBootstrap {
     }
 
     fetchJobs(){
-        const url = `${BASE_URL}`;
+        const url = `${BASE_URL}?search=${this.description}&category=${this.category}&limit=60`;
         fetch(url).then(response=>response.json())
         .then(result=>{
-            console.log(result);
+            console.log(url)
             console.log(result.jobs);
-            this.jobs2 = result.jobs;
+            this.jobs2 = [...result.jobs];
         }).catch(error=>{
             console.error(error, error.line);
         })
+    }
+
+    selectedHandler(event){
+        this.selectedJob = event.detail;
+
+    }
+
+    goBackHandler(){
+        this.selectedJob=null;
+    }
+
+    searchHandler(event){
+        console.log(event.detail);
+        this.description = event.detail.description.replaceAll(' ','+')
+        this.category = event.detail.category
+        this.job_type = event.detail.job_type
+        if(event.detail.job_type == 'full_time'){
+            this.description = this.description+'+'+event.detail.job_type;
+        }
+        this.fetchJobs();
     }
 }
 

@@ -3,15 +3,18 @@
         <div class="card-body">
             <div class="row">
                 <div class="col-12 col-sm-8">
-                    <p class="text-secondary">Posted on: {job.publication_date}</p>
+                    <p class="text-secondary">Posted on: {formattedDate}</p>
                 </div>
                 <div class="col-12 col-sm-4 text-right" >
                     <p><span class="badge badge-danger">{job.job_type}</span></p>
                 </div>
+                <div class="col-12 pb-0 category" >
+                    <p><span class="badge bg-primary">{job.category}</span></p>
+                </div>
             </div>
             <div class="row">
                 <div class="col-12">
-                    <p class="card-title">{job.title}</p>
+                    <p class="card-title"><strong>{job.title}</strong></p>
                 </div>
                 <div class="col-12" >
                     <p class="text-secondary">{job.company_name}</p>

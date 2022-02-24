@@ -13,11 +13,11 @@
                            class="form-control customInput"
                            placeholder="search by text"
                            onkeyup={changeHandler}
-                           name="title"/>
+                           name="description"/>
                 </div>
             </div>
 
-            <!-- location search box -->
+            <!-- category picklist -->
             <div class="col-12 col-sm-4 mb-3 mb-sm-0">
                 <div class="input-group input-group-lg">
                     <div class="input-group-prepend">
@@ -25,7 +25,12 @@
                             <img src="/resources/images/locationIcon.svg" height="20px"/>
                         </span>
                     </div>
-                    <input name="candidate_required_location" type="text" class="form-control customInput" placeholder="search by location" onkeyup={changeHandler}/>
+                    <select class="custom-select" onchange={catHandler} name="category" aria-label="Default select example">
+                        <option selected value="">Select a category</option>
+                        <template for:each={catoptions} for:item="category">
+                            <option key={category.id} value={category.name}>{category.name}</option>
+                        </template>
+                      </select>
                 </div>
             </div>
 
